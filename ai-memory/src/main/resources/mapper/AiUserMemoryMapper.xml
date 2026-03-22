@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huochai.aimemory.mapper.AiUserMemoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.huochai.aimemory.entity.AiUserMemory">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+        <result column="tags" property="tags" jdbcType="VARCHAR"/>
+        <result column="importance" property="importance" jdbcType="DOUBLE"/>
+        <result column="embedding" property="embedding" jdbcType="BLOB"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="selectByUserIdOrderByImportance" resultMap="BaseResultMap">
+        SELECT * FROM ai_user_memory
+        WHERE user_id = #{userId}
+        ORDER BY importance DESC, created_at DESC
+        LIMIT 20
+    </select>
+
+    <update id="updateImportance">
+        UPDATE ai_user_memory
+        SET importance = #{importance}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

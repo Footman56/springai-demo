@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: ai-memory
+
+  # ================= MySQL (主数据库) =================
+  datasource:
+    url: jdbc:mysql://localhost:3306/ai?useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: huochai
+    password: Asdf1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # MySQL 初始化
+  sql:
+    init:
+      mode: always
+
+  # ================= PostgreSQL (向量数据库) =================
+  pgvector:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/ai
+      username: huochai
+      password: Asdf1234
+      driver-class-name: org.postgresql.Driver
+    initialize: true
+
+  # ================= Redis (Session 记忆) =================
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+
+  # ================= AI 配置 =================
+  ai:
+    # DeepSeek Chat 模型
+    deepseek:
+      api-key: ${DEEPSEEK_API_KEY:your-api-key}
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-chat
+    # DashScope
+    openai:
+      api-key: ${DASHSCOPE_API_KEY:your-api-key}
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      embedding:
+        options:
+          model: text-embedding-v3
+          dimensions: 1024
+
+    # 嵌入向量维度
+    # PGVector 向量存储配置（手动配置，禁用自动配置）
+    vectorstore:
+      pgvector:
+        initialize-schema: true            # 手动创建表，禁用自动配置
+        dimensions: 1024                  # text-embedding-v3 的向量维度
+        index-type: hnsw                  # HNSW 索引
+        distance-type: cosine_distance    # 余弦相似度
+        table-name: ai_store
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.huochai.aimemory.entity
+
+logging:
+  level:
+    com.huochai.aimemory.mapper: debug
