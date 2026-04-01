@@ -4,9 +4,9 @@ spring:
 
   ai:
     deepseek:
-      api-key: ${DEEPSEEK_API_KEY}
+      api-key: sk-e4ca2ab621ee4c6a9793ede30507d366
       chat:
         options:
           model: deepseek-chat
     dashscope:
-      api-key: ${DASHSCOPE_API_KEY}
+      api-key: sk-c4cdceac8292407ea5ebd4a46c1319eb

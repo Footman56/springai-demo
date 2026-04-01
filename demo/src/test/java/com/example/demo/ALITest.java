@@ -5,6 +5,8 @@ import com.alibaba.cloud.ai.dashscope.image.DashScopeImageModel;
 import com.alibaba.cloud.ai.dashscope.image.DashScopeImageOptions;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +14,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  *
- *@author peilizhi 
+ *@author peilizhi
  *@date 2026/3/19 23:23
  **/
 @SpringBootTest
 public class ALITest {
 
+
+    private static final Logger log = LoggerFactory.getLogger(ALITest.class);
 
     @Test
     public void testQWen(@Autowired DashScopeChatModel chatModel){
@@ -34,15 +38,15 @@ public class ALITest {
 
 
         DashScopeImageOptions options  = DashScopeImageOptions.builder()
-                .withModel("qwen-image-plus")
-                .withPromptExtend(true)
+                .withModel("qwen-image")
+                .withPromptExtend(false)
                 .build();
         String prompt = "请描述江南烟雨天，一位少女撑伞走在路上";
 
         ImagePrompt imagePrompt = new ImagePrompt(prompt,options);
         ImageResponse call = imageModel.call(imagePrompt);
-        String url = call.getResult().getOutput().getUrl();
-        System.out.println("url = " + url);
+        System.out.println("call.getResult().getOutput() = " + call.getResult().getOutput());
+
     }
 
 
